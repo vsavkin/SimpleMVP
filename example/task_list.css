@@ -1,0 +1,20 @@
+li {
+  list-style-type: none;
+  margin-top: 15px;
+  /*background-color: #F8F8F8;*/
+  font-size: 15px;
+  padding-left: 5px;
+}
+
+span.done-true {
+  text-decoration: line-through;
+}
+
+.actions {
+  float: right;
+}
+
+input.task-text {
+  width: 400px;
+  margin-bottom: 0px;
+}

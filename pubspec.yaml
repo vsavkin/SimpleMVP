@@ -1,0 +1,7 @@
+name: simple_mvp
+version: 0.1.0
+description: >
+  SimpleMVP is a framework for writing single-page applications in Dart.
+dependencies:
+  unittest:
+    sdk: unittest

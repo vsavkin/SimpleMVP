@@ -1,0 +1,5 @@
+pubspec.lock
+packages
+test/packages
+.idea
+.project
