@@ -6,7 +6,7 @@ class _DelegatedEvent {
 
   _DelegatedEvent(this._eventSelector, this._callback);
 
-  void registerOn(HtmlElement parent) {
+  void registerOn(Element parent) {
     var parentCallback = _createCallbackOn(parent);
     var eventList = parent.on[_eventType()];
     eventList.add(parentCallback);

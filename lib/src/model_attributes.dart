@@ -4,6 +4,8 @@
 class InvalidAttributeError extends Error {
   var model, name;
   InvalidAttributeError(this.model, this.name);
+
+  String toString() => "InvalidAttributeError: invalid attribute '${name}' for '${model}'";
 }
 
 /**
