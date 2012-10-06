@@ -6,16 +6,16 @@ class EventCapturer {
   }
 }
 
-class MockStorage extends Mock implements Storage {}
+class MockStorage extends Mock implements smvp.Storage {}
 
-class TestModel extends Model {
+class TestModel extends smvp.Model {
   TestModel(attrs, [list]): super(attrs, list) {
     storage = new MockStorage();
   }
   final rootUrl = "url";
 }
 
-class TestModelList extends ModelList<TestModel> {
+class TestModelList extends smvp.ModelList<TestModel> {
   TestModelList(){
     storage = new MockStorage();
   }

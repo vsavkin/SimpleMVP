@@ -1,5 +1,5 @@
 #import('dart:html');
-#import('../lib/simple_mvp.dart', prefix: "smvp");
+#import('package:simple_mvp/simple_mvp.dart', prefix: "smvp");
 
 class Tasks extends smvp.ModelList<Task>{
   final rootUrl = "/api/tasks";
