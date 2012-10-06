@@ -2,7 +2,7 @@
 
 #import("package:unittest/unittest.dart");
 #import("package:unittest/html_enhanced_config.dart");
-#import('../lib/simple_mvp.dart');
+#import('package:simple_mvp/simple_mvp.dart', prefix: 'smvp');
 
 #import('dart:html');
 
