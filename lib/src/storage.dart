@@ -6,30 +6,30 @@ class Storage {
 
   Storage(this._urls);
 
-  Future<List> readAll() => _submit("GET", _urls["readAll"], json: {});
+  Future<List> readAll() => _submit("GET", _urls["readAll"], body: {});
 
   Future<Map> read(id) => _submit("GET", _urls["read"], id: id);
 
-  Future<Map> create(ModelAttributes attrs) => _submit("POST", _urls["create"], json: attrs.asJSON());
+  Future<Map> create(ModelAttributes attrs) => _submit("POST", _urls["create"], body: attrs.asJSON());
 
-  Future<Map> update(id, ModelAttributes attrs) => _submit("PUT", _urls["update"], id: id, json: attrs.asJSON());
+  Future<Map> update(id, ModelAttributes attrs) => _submit("PUT", _urls["update"], id: id, body: attrs.asJSON());
 
   Future<Map> destroy(id) => _submit("DELETE", _urls["destroy"], id: id);
 
-  _submit(method, url, {id, json}){
+  _submit(method, url, {id, body}){
     var c = new Completer();
     url = id != null ? "$url/$id" : url;
     var req = _createRequest(method, url, (res) => c.complete(res));
-    req.send(JSON.stringify(json));
+    req.send(json.JSON.stringify(body));
     return c.future;
   }
 
   _createRequest(method, url, callback){
-    var req = new HttpRequest();
+    var req = new html.HttpRequest();
 
     req.on.load.add((e){
       String response = req.response;
-      var parsedResponse = response.isEmpty() ? {} : JSON.parse(response);
+      var parsedResponse = response.isEmpty() ? {} : json.JSON.parse(response);
       callback(parsedResponse);
     });
 

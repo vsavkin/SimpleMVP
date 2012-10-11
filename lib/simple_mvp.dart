@@ -1,7 +1,7 @@
 #library('simple_mvp.dart');
 
-#import("dart:html");
-#import("dart:json");
+#import("dart:html", prefix: 'html');
+#import("dart:json", prefix: 'json');
 
 #source('src/model_attributes.dart');
 #source('src/storage.dart');
