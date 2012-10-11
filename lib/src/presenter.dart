@@ -6,7 +6,7 @@ typedef String Template<T>(T model);
 * Updates the view when the model changes.
 */
 class Presenter<T> {
-  final Element el;
+  final html.Element el;
   final Template<T> template;
   final T model;
 
