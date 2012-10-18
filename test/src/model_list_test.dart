@@ -1,3 +1,5 @@
+part of simple_mvp_test;
+
 testModelLists() {
 
   group("model_list_test", () {

@@ -1,3 +1,5 @@
+part of simple_mvp_test;
+
 testModelAttributes() {
   group("model_attributes_test", () {
     var capturer;
@@ -7,7 +9,7 @@ testModelAttributes() {
     group("operator[]", () {
       setUp(() {
         model = new TestModel({});
-        attrs = new smvp.ModelAttributes(model, {"key": "value"});
+        attrs = new ModelAttributes(model, {"key": "value"});
         capturer = new EventCapturer();
       });
 
@@ -23,7 +25,7 @@ testModelAttributes() {
     group("operator[]=", () {
       setUp(() {
         model = new TestModel({});
-        attrs = new smvp.ModelAttributes(model, {"key": "value"});
+        attrs = new ModelAttributes(model, {"key": "value"});
         capturer = new EventCapturer();
       });
 
@@ -55,12 +57,12 @@ testModelAttributes() {
 
     group("hasId", (){
       test("is true when attributes containt id", (){
-        attrs = new smvp.ModelAttributes(null, {"id": "value"});
+        attrs = new ModelAttributes(null, {"id": "value"});
         expect(attrs.hasId(), isTrue);
       });
 
       test("is false otherwise", (){
-        attrs = new smvp.ModelAttributes(null, {});
+        attrs = new ModelAttributes(null, {});
         expect(attrs.hasId(), isFalse);
       });
     });
@@ -68,7 +70,7 @@ testModelAttributes() {
     group("reset", (){
       setUp(() {
         model = new TestModel({});
-        attrs = new smvp.ModelAttributes(model, {"key": "value"});
+        attrs = new ModelAttributes(model, {"key": "value"});
         capturer = new EventCapturer();
       });
 

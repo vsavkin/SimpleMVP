@@ -1,3 +1,5 @@
+part of simple_mvp;
+
 /**
 * The base class for model lists.
 */
@@ -11,7 +13,7 @@ abstract class ModelList<T extends Model> {
   }
 
   /**
-  * Abstract property to be overriden by sublasses. It's used by Storage.
+  * Abstract property to be overridden by subclasses. It's used by Storage.
   */
   String get rootUrl;
 

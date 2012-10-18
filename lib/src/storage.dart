@@ -1,3 +1,5 @@
+part of simple_mvp;
+
 /**
 * Utility class to read/update/delete models on the server.
 */

@@ -1,12 +1,12 @@
-#library('simple_mvp.dart');
+library simple_mvp;
 
-#import("dart:html", prefix: 'html');
-#import("dart:json", prefix: 'json');
+import 'dart:html' as html;
+import 'dart:json' as json;
 
-#source('src/model_attributes.dart');
-#source('src/storage.dart');
-#source('src/events.dart');
-#source('src/model_list.dart');
-#source('src/model.dart');
-#source('src/delegated_event.dart');
-#source('src/presenter.dart');
+part 'src/model_attributes.dart';
+part 'src/storage.dart';
+part 'src/events.dart';
+part 'src/model_list.dart';
+part 'src/model.dart';
+part 'src/delegated_event.dart';
+part 'src/presenter.dart';

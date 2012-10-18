@@ -1,3 +1,5 @@
+part of simple_mvp;
+
 /**
 * Utility class implementing "jquery delegate" functionality.
 */
@@ -7,28 +9,28 @@ class _DelegatedEvent {
   _DelegatedEvent(this._eventSelector, this._callback);
 
   void registerOn(html.Element parent) {
-    var parentCallback = _createCallbackOn(parent);
-    var eventList = parent.on[_eventType()];
+    var parentCallback = createCallbackOn(parent);
+    var eventList = parent.on[eventType()];
     eventList.add(parentCallback);
   }
 
-  _createCallbackOn(parent) => (event) {
-    if (_isTriggeredBySelector(parent, event)) {
+  createCallbackOn(parent) => (event) {
+    if (isTriggeredBySelector(parent, event)) {
       _callback(event);
     }
   };
 
-  _isTriggeredBySelector(parent, event) =>
-    _delimiter() == -1 ?
+  isTriggeredBySelector(parent, event) =>
+    delimiter() == -1 ?
       true :
-      parent.queryAll(_selector()).some((el) => el == event.target);
+      parent.queryAll(selector()).some((el) => el == event.target);
 
-  _eventType() =>
-    _delimiter() == -1 ?
+  eventType() =>
+    delimiter() == -1 ?
       _eventSelector :
-      _eventSelector.substring(0, _delimiter());
+      _eventSelector.substring(0, delimiter());
 
-  _selector() => _eventSelector.substring(_delimiter() + 1);
+  selector() => _eventSelector.substring(delimiter() + 1);
 
-  _delimiter() => _eventSelector.indexOf(' ');
+  delimiter() => _eventSelector.indexOf(' ');
 }

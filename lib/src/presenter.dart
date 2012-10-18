@@ -1,3 +1,5 @@
+part of simple_mvp;
+
 typedef String Template<T>(T model);
 
 /**

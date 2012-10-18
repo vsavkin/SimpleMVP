@@ -1,3 +1,5 @@
+part of simple_mvp;
+
 /**
 * Exception raised when accessing a missing attribute.
 */

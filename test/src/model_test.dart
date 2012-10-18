@@ -1,3 +1,5 @@
+part of simple_mvp_test;
+
 testModels() {
   group("model_test", () {
     var capturer;

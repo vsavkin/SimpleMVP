@@ -1,3 +1,5 @@
+part of simple_mvp;
+
 typedef Listener(event);
 
 /**
@@ -20,7 +22,7 @@ class Listeners {
 * Utility class to manage multiple event types.
 */
 class EventMap {
-  final _listeners = new Map();
+  final Map _listeners = {};
 
   Listeners listeners(String eventType){
     _listeners.putIfAbsent(eventType, () => new Listeners());
