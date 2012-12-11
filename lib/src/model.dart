@@ -49,15 +49,15 @@ abstract class Model {
 
   operator []= (String name, value) => attributes[name] = value;
 
-  noSuchMethod(String name, args){
-    if(name.startsWith("get:")){
-      return this[_extractAttributeName(name)];
+  noSuchMethod(InvocationMirror invocation){
+    if(invocation.memberName.startsWith("get:")){
+      return this[_extractAttributeName(invocation.memberName)];
 
-    } else if (name.startsWith("set:")){
-      return this[_extractAttributeName(name)] = args[0];
+    } else if (invocation.memberName.startsWith("set:")){
+      return this[_extractAttributeName(invocation.memberName)] = invocation.positionalArguments[0];
     }
 
-    throw new NoSuchMethodError(this, name, args);
+    throw new NoSuchMethodError(this, invocation.memberName, invocation.positionalArguments, invocation.namedArguments);
   }
 
   _extractAttributeName(name) => name.substring(4);

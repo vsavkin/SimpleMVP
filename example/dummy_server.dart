@@ -1,6 +1,6 @@
-#import("dart:io");
-#import("dart:json");
-#import("dart:math");
+import 'dart:io';
+import 'dart:json';
+import 'dart:math';
 
 final HOST = "127.0.0.1";
 final PORT = 8080;
