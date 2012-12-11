@@ -1,3 +1,5 @@
+part of simple_mvp_test;
+
 class EventCapturer {
   var event;
 
