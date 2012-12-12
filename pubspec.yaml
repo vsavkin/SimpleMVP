@@ -5,5 +5,4 @@ description: >
 author: Victor Savkin <vic.savkin@gmail.com>
 homepage: https://github.com/vsavkin/SimpleMVP
 dependencies:
-  unittest:
-    sdk: unittest
+  unittest: 0.2.8+2
