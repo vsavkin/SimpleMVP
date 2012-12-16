@@ -31,7 +31,7 @@ class Storage {
 
     req.on.load.add((e){
       String response = req.response;
-      var parsedResponse = response.isEmpty() ? {} : json.JSON.parse(response);
+      var parsedResponse = response.isEmpty ? {} : json.JSON.parse(response);
       callback(parsedResponse);
     });
 
