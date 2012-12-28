@@ -11,8 +11,31 @@ class Presenter<T> {
   final html.Element el;
   final Template<T> template;
   final T model;
-
+  
+  /**
+   * Maps events to event handlers.
+   * 
+   * Example:
+   * {"click a.delete": _onDelete}
+   **/
   Map get events => {};
+
+  /**
+   * Provides convenient access to rendered elements.
+   * 
+   * For example:
+   * 
+   * {firstName : "input[name='firstName']"}
+   * 
+   * defines a getter on the presenter that returns the input element.
+   * It can be used in any method of the presenter:
+   * 
+   * void _submitForm(){
+   *   var firstName = this.firstName.text()
+   *   ...
+   * }
+   **/
+  Map get ui => {};
 
   Presenter(this.model, this.el, [this.template]){
     subscribeToModelEvents();
@@ -21,7 +44,7 @@ class Presenter<T> {
 
   Presenter<T> render(){
     if(template != null){
-      el.innerHTML = template(model);
+      el.innerHtml = template(model);
     }
     return this;
   }
@@ -33,5 +56,14 @@ class Presenter<T> {
   }
 
   void subscribeToModelEvents(){
+  }
+
+  noSuchMethod(InvocationMirror invocation){
+    if(invocation.isGetter){
+      if(ui.containsKey(invocation.memberName)){
+        return el.query(ui[invocation.memberName]);
+      }
+    }
+    throw new NoSuchMethodError(this, invocation.memberName, invocation.positionalArguments, invocation.namedArguments);
   }
 }

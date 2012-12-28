@@ -12,6 +12,7 @@ part 'src/events_test.dart';
 part 'src/model_attributes_test.dart';
 part 'src/model_test.dart';
 part 'src/model_list_test.dart';
+part 'src/presenter_test.dart';
 
 main(){
   useHtmlEnhancedConfiguration();
@@ -20,4 +21,5 @@ main(){
   testEvents();
   testModelAttributes();
   testModelLists();
+  testPresenters();
 }
