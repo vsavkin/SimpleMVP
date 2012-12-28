@@ -31,7 +31,7 @@ class Presenter<T> {
    * It can be used in any method of the presenter:
    * 
    * void _submitForm(){
-   *   var firstName = this.firstName.text()
+   *   var firstName = this.firstName.value
    *   ...
    * }
    **/
