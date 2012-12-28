@@ -50,15 +50,16 @@ abstract class Model {
   operator []= (String name, value) => attributes[name] = value;
 
   noSuchMethod(InvocationMirror invocation){
-    if(invocation.memberName.startsWith("get:")){
-      return this[_extractAttributeName(invocation.memberName)];
-
-    } else if (invocation.memberName.startsWith("set:")){
-      return this[_extractAttributeName(invocation.memberName)] = invocation.positionalArguments[0];
+    if(invocation.isGetter){
+      return this[invocation.memberName];
+    } else if (invocation.isSetter){
+      var propertyName = _removeEqualsSign(invocation.memberName);
+      return this[propertyName] = invocation.positionalArguments[0];
     }
 
     throw new NoSuchMethodError(this, invocation.memberName, invocation.positionalArguments, invocation.namedArguments);
   }
 
-  _extractAttributeName(name) => name.substring(4);
+  _removeEqualsSign(String setter)
+    => setter.substring(0, setter.length - 1);
 }
