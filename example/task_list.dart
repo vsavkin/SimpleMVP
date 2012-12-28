@@ -84,8 +84,8 @@ class NewTaskPresenter extends smvp.Presenter<Tasks> {
     "keypress input": _maybeAddNewTask
   };
 
-  _maybeAddNewTask(event){
-    if(event.keyIdentifier == "Enter"){
+  _maybeAddNewTask(KeyboardEvent event){
+    if(event.keyCode == 13){
       _createTask();
     }
   }
