@@ -38,11 +38,11 @@ class RequestHandler {
         
     } else if (uri.endsWith(".css")){
       var file = new File("example/${_filename(uri)}");
-      _render("text/css", file.readAsTextSync());
+      _render("text/css", file.readAsStringSync());
   
     } else if (uri.endsWith(".html")){
       var file = new File("example/${_filename(uri)}");
-      _render("text/html", file.readAsTextSync());
+      _render("text/html", file.readAsStringSync());
     }
   }
   
@@ -74,9 +74,9 @@ class RequestHandler {
     var exampleFile =  new File("example/${_filename(uri)}");
     
     if(libFile.existsSync()){
-      _render("application/dart", libFile.readAsTextSync());
+      _render("application/dart", libFile.readAsStringSync());
     } else {
-      _render("application/dart", exampleFile.readAsTextSync());
+      _render("application/dart", exampleFile.readAsStringSync());
     }
   }
   
