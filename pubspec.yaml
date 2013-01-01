@@ -1,5 +1,5 @@
 name: simple_mvp
-version: 0.2.0
+version: 0.3.0
 description: >
   SimpleMVP is a framework for writing single-page applications in Dart.
 author: Victor Savkin <vic.savkin@gmail.com>

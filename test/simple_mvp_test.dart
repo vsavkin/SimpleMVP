@@ -12,6 +12,7 @@ part 'src/events_test.dart';
 part 'src/model_attributes_test.dart';
 part 'src/model_test.dart';
 part 'src/model_list_test.dart';
+part 'src/repository_test.dart';
 part 'src/presenter_test.dart';
 
 main(){
@@ -21,5 +22,6 @@ main(){
   testEvents();
   testModelAttributes();
   testModelLists();
+  testRepositories();
   testPresenters();
 }

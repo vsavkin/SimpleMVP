@@ -11,6 +11,11 @@ class Presenter<T> {
   final html.Element el;
   final Template<T> template;
   final T model;
+
+  /**
+   * Improves readability when the model is a list.
+   **/
+  T get modelList => model;
   
   /**
    * Maps events to event handlers.

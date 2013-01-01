@@ -1,29 +1,26 @@
 import 'dart:html';
 import 'package:simple_mvp/simple_mvp.dart' as smvp;
 
-class Tasks extends smvp.ModelList<Task>{
-  final rootUrl = "/api/tasks";
+class TasksRepository extends smvp.Repository<Task> {
+  TasksRepository(storage) : super(storage);
+  makeInstance(attrs) => new Task(attrs);
+}
 
-  makeInstance(attrs, list) => new Task(attrs, list);
+class Tasks extends smvp.ModelList<Task> {
 }
 
 class Task extends smvp.Model {
-  Task(attrs, modelList): super(attrs, modelList);
-  Task.fromText(String text): this({"text": text, "status": "inProgress"}, null);
-  
-  final rootUrl = "/api/task";
-  final createUrl = "/api/tasks";
+  Task(attrs): super(attrs);
+  Task.fromText(String text): this({"text": text, "status": "inProgress"});
 
   get isCompleted => status == "completed";
 
   complete(){
     status = "completed";
-    save();
   }
 
   inProgress(){
     status = "inProgress";
-    save();
   }
 }
 
@@ -56,7 +53,10 @@ taskListTemplate(c) => """
 
 
 class TaskPresenter extends smvp.Presenter<Task> {
-  TaskPresenter(task, el) : super(task, el, oneTaskTemplate);
+  Tasks tasks;
+  TasksRepository repo;
+
+  TaskPresenter(this.repo, this.tasks, task, el) : super(task, el, oneTaskTemplate);
 
   subscribeToModelEvents() {
     model.on.change.add(_onChange);
@@ -72,12 +72,22 @@ class TaskPresenter extends smvp.Presenter<Task> {
     "click a.complete": _onComplete
   };
 
-  _onDelete(event) => model.destroy();
-  _onComplete(event) => model.isCompleted ? model.inProgress() : model.complete();
+  _onDelete(event){
+    tasks.remove(model);
+    repo.destroy(model);
+  }
+
+  _onComplete(event){
+    model.isCompleted ? model.inProgress() : model.complete();
+    repo.save(model);
+  }
 }
 
-class NewTaskPresenter extends smvp.Presenter<Tasks> {
-  NewTaskPresenter(tasks, el) :super(tasks, el, newTaskTemplate);
+class NewTaskPresenter extends smvp.Presenter {
+  TasksRepository repo;
+  Tasks tasks;
+
+  NewTaskPresenter(this.repo, this.tasks, el) :super(null, el, newTaskTemplate);
 
   get events => {
     "click button": _addNewTask,
@@ -98,16 +108,18 @@ class NewTaskPresenter extends smvp.Presenter<Tasks> {
     var textField = el.query(".task-text");
 
     var task = new Task.fromText(textField.value);
-    model.add(task);
-    task.save();
+    tasks.add(task);
+    repo.save(task);
 
     textField.value = "";
   }
 }
 
 class TasksPresenter extends smvp.Presenter<Tasks>{
-  TasksPresenter(tasks, el) : super(tasks, el, taskListTemplate){
-    model.fetch();
+  TasksRepository repo;
+
+  TasksPresenter(this.repo, tasks, el) : super(tasks, el, taskListTemplate){
+    repo.find().then((list) => model.reset(list));
   }
 
   subscribeToModelEvents(){
@@ -125,13 +137,24 @@ class TasksPresenter extends smvp.Presenter<Tasks>{
     });
   }
   
-  _buildPresenters() => model.map((t) => new TaskPresenter(t, new Element.tag("li")));
+  _buildPresenters() => modelList.map((t) => _buildPresenter(t));
+  _buildPresenter(t) => new TaskPresenter(repo, modelList, t, new Element.tag("li"));
 }
 
 main() {
+  var storage = new smvp.RestfulStorage({
+    "find": "/api/tasks",
+    "read": "/api/task",
+    "create": "/api/tasks",
+    "update": "/api/task",
+    "destroy": "/api/task"
+  });
+
+  var repo = new TasksRepository(storage);
   var tasks = new Tasks();
-  var newTaskPresenter = new NewTaskPresenter(tasks, new Element.tag("div"));
-  var tasksPresenter = new TasksPresenter(tasks, new Element.tag("div"));
+
+  var newTaskPresenter = new NewTaskPresenter(repo, tasks, new Element.tag("div"));
+  var tasksPresenter = new TasksPresenter(repo, tasks, new Element.tag("div"));
   
   query("#container").elements.addAll([newTaskPresenter.render().el, tasksPresenter.render().el]);
 }

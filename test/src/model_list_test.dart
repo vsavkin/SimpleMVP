@@ -18,11 +18,6 @@ testModelLists() {
         expect(list.models, equals([model]));
       });
 
-      test("sets the modelList property on the model", () {
-        list.add(model);
-        expect(model.modelList, equals(list));
-      });
-
       test("raises an event", () {
         list.on.insert.add(capturer.callback);
         list.add(model);
