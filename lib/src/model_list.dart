@@ -1,7 +1,7 @@
 part of simple_mvp;
 
 /**
-* The base class for model lists.
+* The base class for evented model lists.
 */
 class ModelList<T extends Model> {
   final CollectionEvents on = new CollectionEvents();

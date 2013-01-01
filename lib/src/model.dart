@@ -1,7 +1,7 @@
 part of simple_mvp;
 
 /**
-* The base class for model classes. It manages attribute changes, and persistence.
+* The base class for evented models.
 */
 abstract class Model {
   Storage storage;

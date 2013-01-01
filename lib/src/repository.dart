@@ -1,6 +1,6 @@
 part of simple_mvp;
 
-abstract class Repository<T> {
+abstract class Repository<T extends Model> {
   Storage storage;
 
   Repository(this.storage);

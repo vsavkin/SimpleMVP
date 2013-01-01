@@ -3,11 +3,7 @@ part of simple_mvp_test;
 testModels() {
   group("model_test", () {
     var model;
-
-    setUp(() {
-      capturer = new EventCapturer();
-    });
-
+    
     group("saved", () {
       test("is true when id is set", () {
         model = new TestModel({"id": 1});

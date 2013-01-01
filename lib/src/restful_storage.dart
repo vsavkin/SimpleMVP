@@ -1,7 +1,7 @@
 part of simple_mvp;
 
 /**
-* Utility class to read/update/delete models on the server.
+* An implementaion of the Storage interface for a restful backend.
 */
 class RestfulStorage implements Storage {
   final _urls;

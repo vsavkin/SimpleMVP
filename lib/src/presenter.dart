@@ -12,6 +12,9 @@ class Presenter<T> {
   final Template<T> template;
   final T model;
 
+  /**
+   * Improves readability when the model is a list.
+   **/
   T get modelList => model;
   
   /**
