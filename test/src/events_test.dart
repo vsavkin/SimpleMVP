@@ -4,7 +4,6 @@ testEvents() {
   group("events_test", () {
     var listener1 = (e){};
     var listener2 = (e){};
-    var capturer = new EventCapturer();
 
     group("Listeners", () {
       test("adds listeners", () {
@@ -14,7 +13,9 @@ testEvents() {
       });
 
       test("dispatches events", () {
+        var capturer = new EventCapturer();
         var l = new Listeners();
+
         l.add(capturer.callback);
 
         l.dispatch("expected event");
@@ -33,6 +34,28 @@ testEvents() {
       test("creates a new list for every event type", () {
         var e = new EventMap();
         expect(e.listeners("type1"), isNot(equals(e.listeners("type2"))));
+      });
+    });
+
+    group("Event bus", (){
+      test("notifies registered listeners when an event type matches", (){
+        var capturer = new EventCapturer();
+        var b = new EventBus();
+        b.on("event1", capturer.callback);
+
+        b.fire("event1", "some data");
+
+        expect(capturer.event, equals("some data"));
+      });
+
+      test("doesn't notify otherwise", (){
+        var capturer = new EventCapturer();
+        var b = new EventBus();
+        b.on("event1", capturer.callback);
+
+        b.fire("event2", "some data");
+
+        expect(capturer.event, isNull);
       });
     });
   });
