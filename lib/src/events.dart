@@ -28,6 +28,27 @@ class EventMap {
     _listeners.putIfAbsent(eventType, () => new Listeners());
     return _listeners[eventType];
   }
+
+  bool hasListeners(eventType)
+    => _listeners.containsKey(eventType);
+}
+
+
+/**
+* Utility class to be used by an application to transfer app events.
+*/
+class EventBus {
+  final EventMap _map = new EventMap();
+
+  void on(String eventType, Listener listener){
+    _map.listeners(eventType).add(listener);
+  }
+
+  void fire(String eventType, event){
+    if(_map.hasListeners(eventType)){
+      _map.listeners(eventType).dispatch(event);
+    }
+  }
 }
 
 /**
