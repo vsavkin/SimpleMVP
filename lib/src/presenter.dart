@@ -47,7 +47,7 @@ class Presenter<T> {
     subscribeToDOMEvents();
   }
 
-  Presenter<T> render([event]){
+  Presenter<T> render(){
     if(template != null){
       el.innerHtml = template(model);
     }
