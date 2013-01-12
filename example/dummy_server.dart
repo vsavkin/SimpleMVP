@@ -80,6 +80,8 @@ class StaticHandler {
 
   onRequest(request, response) {
     var file = new File('${folder}${request.path}');
-    file.exists().then((_) => file.openInputStream().pipe(response.outputStream));
+    file.exists().then((exists){
+      if(exists)file.openInputStream().pipe(response.outputStream);
+    });
   }
 }
