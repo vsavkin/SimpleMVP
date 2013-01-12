@@ -4,10 +4,11 @@ testRepositories() {
 
   group("repository_tests", () {
     var repo = new TestModelRepo();
+    Mock storage = repo.storage as Mock;
 
     group("read", () {
       test("wraps that hash returned by the storage", () {
-        repo.storage.
+        storage.
           when(callsTo('read', 1)).
           alwaysReturn(new Future.immediate({"key" : "value"}));
 
@@ -19,7 +20,7 @@ testRepositories() {
 
     group("find", () {
       test("wraps that hash returned by the storage", () {
-        repo.storage.
+        storage.
           when(callsTo('find', {"filter" : 1})).
           alwaysReturn(new Future.immediate([{"key" : "value"}]));
 
@@ -33,7 +34,7 @@ testRepositories() {
       test("passes the list of attributes to storage", () {
         var model = new TestModel({"key" : "value"});
 
-        repo.storage.
+        storage.
           when(callsTo('save', {"key" : "value"})).
           thenReturn(new Future.immediate({}));
 
@@ -43,7 +44,7 @@ testRepositories() {
       test("returns an updated model", () {
         var model = new TestModel({"key" : "value"});
 
-        repo.storage.
+        storage.
           when(callsTo('save')).
           alwaysReturn(new Future.immediate({"key" : "value2"}));
 
@@ -55,7 +56,7 @@ testRepositories() {
       test("updates the model", () {
         var model = new TestModel({"key" : "value"});
 
-        repo.storage.
+        storage.
           when(callsTo('save')).
           alwaysReturn(new Future.immediate({"key" : "value2"}));
 
@@ -69,7 +70,7 @@ testRepositories() {
       test("calls destroy on storage", () {
         var model = new TestModel({"id" : 1});
 
-        repo.storage.
+        storage.
           when(callsTo('destroy', 1)).
           alwaysReturn(new Future.immediate(true));
 
