@@ -9,6 +9,7 @@ import 'dart:html' as html;
 
 part 'src/utils.dart';
 part 'src/events_test.dart';
+part 'src/validations_test.dart';
 part 'src/model_attributes_test.dart';
 part 'src/model_test.dart';
 part 'src/model_list_test.dart';
@@ -20,6 +21,7 @@ main(){
 
   testModels();
   testEvents();
+  testValidations();
   testModelAttributes();
   testModelLists();
   testRepositories();
