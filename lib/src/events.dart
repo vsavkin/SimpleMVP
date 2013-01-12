@@ -93,6 +93,7 @@ class CollectionRemoveEvent {
 */
 class ModelEvents extends EventMap {
   Listeners get change => listeners("change");
+  Listeners get validation => listeners("validation");
 }
 
 /**
