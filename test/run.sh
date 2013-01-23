@@ -1,6 +1,8 @@
 #!/bin/bash -e
 
+PATH=$HOME/local/dart/chromium:$PATH
 results=$(DumpRenderTree test/run.html 2>&1)
+
 echo -e "$results"
 
 echo "$results" | grep CONSOLE
