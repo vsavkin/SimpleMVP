@@ -1,5 +1,7 @@
 # VINT
 
+[![](https://drone.io/vsavkin/vint/status.png)](https://drone.io/vsavkin/vint/latest)
+
 VINT is a library for building single-page applications in Dart. It helps structure your application by providing the following components:
 
 * Evented models and lists for representing domain concepts
