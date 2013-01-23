@@ -1,12 +1,11 @@
 # VINT
 
-VINT is a library for building single-page applications in Dart. It helps structure your application by providing you the following components:
+VINT is a library for building single-page applications in Dart. It helps structure your application by providing the following components:
 
 * Evented models and lists for representing domain concepts
-* Validators for ensuring data integrity
-* Event bus for coordinating components
 * Storages and repositories for managing persistence
 * Presenters for encapsulating interactions with the DOM
+* Validators, Event Bus, and more
 
 ## INSTALLATION
 
