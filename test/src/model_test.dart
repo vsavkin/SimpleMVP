@@ -1,4 +1,4 @@
-part of simple_mvp_test;
+part of vint_test;
 
 testModels() {
   group("model_test", () {

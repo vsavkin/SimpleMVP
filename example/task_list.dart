@@ -1,5 +1,5 @@
 import 'dart:html';
-import 'package:simple_mvp/simple_mvp.dart' as smvp;
+import 'package:vint/vint.dart' as smvp;
 
 class TasksRepository extends smvp.Repository<Task> {
   TasksRepository(storage) : super(storage);

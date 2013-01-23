@@ -1,4 +1,4 @@
-part of simple_mvp;
+part of vint;
 
 typedef Listener(event);
 

@@ -1,4 +1,4 @@
-part of simple_mvp;
+part of vint;
 
 /**
 * An implementaion of the Storage interface for a restful backend.

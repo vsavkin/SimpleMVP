@@ -1,9 +1,9 @@
-name: simple_mvp
-version: 0.3.1
+name: vint
+version: 0.4.0
 description: >
-  SimpleMVP is a framework for writing single-page applications in Dart.
+  VINT is a framework for writing single-page applications in Dart.
 author: Victor Savkin <vic.savkin@gmail.com>
-homepage: https://github.com/vsavkin/SimpleMVP
+homepage: http://vintdart.com
 dependencies:
   unittest:
     sdk: unittest

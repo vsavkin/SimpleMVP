@@ -31,4 +31,4 @@ Even if you don't end up using SimpleMVP, you can still use it as an example of 
 ### Add the SimpleMVP dependency to your pubspec.yaml
 
   dependencies:
-    simple_mvp: any
+    vint: any

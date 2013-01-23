@@ -1,4 +1,4 @@
-part of simple_mvp;
+part of vint;
 
 abstract class Storage {
   Future<List> find(filters);
