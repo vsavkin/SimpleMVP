@@ -1,7 +1,6 @@
 library vint_test;
 
 import 'package:unittest/unittest.dart';
-import 'package:unittest/html_enhanced_config.dart';
 import 'package:unittest/mock.dart';
 import 'package:vint/vint.dart';
 
@@ -18,8 +17,6 @@ part 'src/repository_test.dart';
 part 'src/presenter_test.dart';
 
 main(){
-  useHtmlEnhancedConfiguration();
-
   testModels();
   testEvents();
   testValidations();
