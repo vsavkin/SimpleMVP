@@ -5,6 +5,5 @@ description: >
 author: Victor Savkin <vic.savkin@gmail.com>
 homepage: http://vintdart.com
 dependencies:
-  unittest:
-    sdk: unittest
+  unittest: any
   browser: any
