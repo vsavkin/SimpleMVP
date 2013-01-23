@@ -55,7 +55,7 @@ class EventBus {
 * Event map for the ModelList class.
 */
 class CollectionEvents extends EventMap {
-  Listeners get load => listeners("load");
+  Listeners get reset => listeners("reset");
   Listeners get insert => listeners("insert");
   Listeners get remove => listeners("remove");
   Listeners get update => listeners("update");
@@ -64,10 +64,10 @@ class CollectionEvents extends EventMap {
 /**
 * An event that is raised after a collection's initial load.
 */
-class CollectionLoadEvent {
+class CollectionResetEvent {
   final collection;
 
-  CollectionLoadEvent(this.collection);
+  CollectionResetEvent(this.collection);
 }
 
 /**

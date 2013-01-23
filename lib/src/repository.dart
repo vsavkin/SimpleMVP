@@ -8,15 +8,15 @@ abstract class Repository<T extends Model> {
   T makeInstance(Map attrs);
 
   Future<List<T>> find([filters = const {}])
-    => storage.find(filters).transform((a) => _makeInstances(a));
+    => storage.find(filters).then((a) => _makeInstances(a));
 
   Future<T> read(id)
-    => storage.read(id).transform((a) => makeInstance(a));
+    => storage.read(id).then((a) => makeInstance(a));
 
   Future<T> save(T t){
     var future = storage.save(t.attributes.asJSON());
 
-    return future.transform((attrs){
+    return future.then((attrs){
       t.attributes.reset(attrs);
       return t;
     });
@@ -25,5 +25,5 @@ abstract class Repository<T extends Model> {
   Future destroy(T t)
     => storage.destroy(t.id);
 
-  _makeInstances(list) => list.map((a) => makeInstance(a));
+  _makeInstances(list) => list.mappedBy((a) => makeInstance(a));
 }

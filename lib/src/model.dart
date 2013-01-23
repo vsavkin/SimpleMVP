@@ -4,9 +4,7 @@ part of simple_mvp;
 * The base class for evented models.
 */
 abstract class Model {
-  Storage storage;
   ModelAttributes attributes;
-  ModelList modelList;
 
   final ModelEvents on = new ModelEvents();
 

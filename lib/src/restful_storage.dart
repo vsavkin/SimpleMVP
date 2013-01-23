@@ -26,7 +26,7 @@ class RestfulStorage implements Storage {
     var c = new Completer();
     url = id != null ? "$url/$id" : url;
     var req = _createRequest(method, url, (res) => c.complete(res));
-    req.send(json.JSON.stringify(body));
+    req.send(json.stringify(body));
     return c.future;
   }
 
@@ -35,7 +35,7 @@ class RestfulStorage implements Storage {
 
     req.on.load.add((e){
       String response = req.response;
-      var parsedResponse = response.isEmpty ? {} : json.JSON.parse(response);
+      var parsedResponse = response.isEmpty ? {} : json.parse(response);
       callback(parsedResponse);
     });
 

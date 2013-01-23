@@ -2,6 +2,7 @@ library simple_mvp;
 
 import 'dart:html' as html;
 import 'dart:json' as json;
+import 'dart:async';
 
 part 'src/model_attributes.dart';
 part 'src/storage.dart';

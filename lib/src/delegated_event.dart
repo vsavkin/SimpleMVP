@@ -23,7 +23,7 @@ class _DelegatedEvent {
   isTriggeredBySelector(parent, event) =>
     delimiter() == -1 ?
       true :
-      parent.queryAll(selector()).some((el) => el == event.target);
+      parent.queryAll(selector()).any((el) => el == event.target);
 
   eventType() =>
     delimiter() == -1 ?

@@ -9,7 +9,7 @@ class ModelList<T extends Model> {
 
   forEach(fn(T)) => models.forEach(fn);
 
-  map(fn(T)) => models.map(fn);
+  map(fn(T)) => models.mappedBy(fn);
 
   void add(T model){
     models.add(model);
@@ -25,7 +25,8 @@ class ModelList<T extends Model> {
   }
 
   void reset(List list){
-    models = list;
-    on.load.dispatch(new CollectionLoadEvent(this));
+    models.clear();
+    models.addAll(list);
+    on.reset.dispatch(new CollectionResetEvent(this));
   }
 }

@@ -6,6 +6,7 @@ import 'package:unittest/mock.dart';
 import 'package:simple_mvp/simple_mvp.dart';
 
 import 'dart:html' as html;
+import 'dart:async';
 
 part 'src/utils.dart';
 part 'src/events_test.dart';

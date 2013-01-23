@@ -30,7 +30,7 @@ class Validations {
   }
 
   Map<String, List> validate(Model model){
-    var errors = _validators.map((_) => _.validate(model));
+    var errors = _validators.mappedBy((_) => _.validate(model));
     var mergedErrors = _mergeErrors(errors);
     model.on.validation.dispatch(mergedErrors);
     return mergedErrors;

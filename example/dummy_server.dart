@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'dart:json';
+import 'dart:json' as json;
 import 'dart:math';
 
 final HOST = "127.0.0.1";
@@ -43,9 +43,9 @@ class ApiHandler {
       var data = s.read();
       print("body: ${data}");
       
-      var map = JSON.parse(data);
+      var map = json.parse(data);
       map["id"] = new Random().nextInt(10000);
-      _render("text/json", JSON.stringify(map), response);
+      _render("text/json", json.stringify(map), response);
     };    
   }
 
@@ -69,7 +69,7 @@ class ApiHandler {
         {"id": 1, "text": "Task 1", "status" : "inProgress"},
         {"id": 2, "text": "Task 2", "status" : "inProgress"}
     ];
-    return JSON.stringify(r);
+    return json.stringify(r);
   }
 }
 
@@ -80,8 +80,13 @@ class StaticHandler {
 
   onRequest(request, response) {
     var file = new File('${folder}${request.path}');
+    print('${folder}${request.path}');
     file.exists().then((exists){
-      if(exists)file.openInputStream().pipe(response.outputStream);
+      if(exists){
+        file.openInputStream().pipe(response.outputStream);
+      } else {
+        response.outputStream.close();
+      }
     });
   }
 }

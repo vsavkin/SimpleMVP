@@ -123,7 +123,7 @@ class TasksPresenter extends smvp.Presenter<Tasks>{
   }
 
   subscribeToModelEvents(){
-    model.on.load.add(_rerenderTasks);
+    model.on.reset.add(_rerenderTasks);
     model.on.insert.add(_rerenderTasks);
     model.on.remove.add(_rerenderTasks);
   }
