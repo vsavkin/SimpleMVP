@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # VINT
 
 VINT is a framework for writing single-page applications in Dart. Similar to Backbone it has the following key components:
