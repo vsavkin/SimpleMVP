@@ -1,11 +1,8 @@
 #!/bin/bash -e
 
-results=$(DumpRenderTree test/run.html)
+results=$(DumpRenderTree test/run.html 2>&1)
 echo -e "$results"
 
-if [[ "$results" == *"Some tests failed"* ]]
-then
-  exit 1
-fi
+echo "$results" | grep CONSOLE
 
-exit 0
+echo $results | grep -v 'Exception: Some tests failed.' >/dev/null
