@@ -20,7 +20,7 @@ testEvents() {
 
         l.dispatch("expected event");
 
-        expect(capturer.event, equals("expected event1"));
+        expect(capturer.event, equals("expected event"));
       });
     });
 
