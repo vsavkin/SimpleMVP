@@ -1,4 +1,4 @@
-part of simple_mvp;
+part of vint;
 
 /**
 * Utility class implementing "jquery delegate" functionality.

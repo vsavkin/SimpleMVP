@@ -1,9 +1,9 @@
-library simple_mvp_test;
+library vint_test;
 
 import 'package:unittest/unittest.dart';
 import 'package:unittest/html_enhanced_config.dart';
 import 'package:unittest/mock.dart';
-import 'package:simple_mvp/simple_mvp.dart';
+import 'package:vint/vint.dart';
 
 import 'dart:html' as html;
 import 'dart:async';

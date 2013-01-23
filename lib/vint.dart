@@ -1,4 +1,4 @@
-library simple_mvp;
+library vint;
 
 import 'dart:html' as html;
 import 'dart:json' as json;
