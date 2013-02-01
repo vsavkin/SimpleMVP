@@ -59,7 +59,7 @@ class TaskPresenter extends smvp.Presenter<Task> {
   TaskPresenter(this.repo, this.tasks, task, el) : super(task, el, oneTaskTemplate);
 
   subscribeToModelEvents() {
-    model.on.change.add(_onChange);
+    model.events.onChange.listen(_onChange);
   }
 
   _onChange(e){
@@ -123,9 +123,9 @@ class TasksPresenter extends smvp.Presenter<Tasks>{
   }
 
   subscribeToModelEvents(){
-    model.on.reset.add(_rerenderTasks);
-    model.on.insert.add(_rerenderTasks);
-    model.on.remove.add(_rerenderTasks);
+    model.events.onReset.listen(_rerenderTasks);
+    model.events.onInsert.listen(_rerenderTasks);
+    model.events.onRemove.listen(_rerenderTasks);
   }
 
   _rerenderTasks(event){
