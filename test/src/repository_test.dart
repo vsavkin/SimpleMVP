@@ -1,12 +1,11 @@
 part of vint_test;
 
 testRepositories() {
-
-  group("repository_tests", () {
+  group("[repository]", () {
     var repo = new TestModelRepo();
     Mock storage = repo.storage as Mock;
 
-    group("read", () {
+    group("[read]", () {
       test("wraps that hash returned by the storage", () {
         storage.
           when(callsTo('read', 1)).
@@ -18,7 +17,7 @@ testRepositories() {
       });
     });
 
-    group("find", () {
+    group("[find]", () {
       test("wraps that hash returned by the storage", () {
         storage.
           when(callsTo('find', {"filter" : 1})).
@@ -30,7 +29,7 @@ testRepositories() {
       });
     });
 
-    group("save", () {
+    group("[save]", () {
       test("passes the list of attributes to storage", () {
         var model = new TestModel({"key" : "value"});
 
@@ -66,7 +65,7 @@ testRepositories() {
       });
     });
 
-    group("destroy", () {
+    group("[destroy]", () {
       test("calls destroy on storage", () {
         var model = new TestModel({"id" : 1});
 

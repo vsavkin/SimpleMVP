@@ -2,12 +2,12 @@ part of vint_test;
 
 testModelLists() {
 
-  group("model_list_test", () {
+  group("[model list]", () {
     var capturer = new EventCapturer();
     var list;
     var model;
 
-    group("add", () {
+    group("[add]", () {
       setUp(() {
         list = new TestModelList();
         model = new TestModel({});
@@ -26,7 +26,7 @@ testModelLists() {
       });
     });
 
-    group("remove", () {
+    group("[remove]", () {
       setUp(() {
         list = new TestModelList();
         model = new TestModel({});

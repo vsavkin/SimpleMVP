@@ -1,12 +1,12 @@
 part of vint_test;
 
 testEvents() {
-  group("events", () {
+  group("[events]", () {
     var listener1 = (e){};
     var listener2 = (e){};
 
-    group("Event bus", (){
-      test("notifies registered listeners when an event type matches", (){
+    group("[event bus]", (){
+      test("notifies registered listeners when the event type matches", (){
         var capturer = new EventCapturer();
         var b = new EventBus();
 

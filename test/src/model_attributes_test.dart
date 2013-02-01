@@ -1,12 +1,12 @@
 part of vint_test;
 
 testModelAttributes() {
-  group("model_attributes_test", () {
+  group("[model attributes]", () {
     var capturer;
     var model;
     var attrs;
 
-    group("operator[]", () {
+    group("[operator []]", () {
       setUp(() {
         model = new TestModel({});
         attrs = new ModelAttributes(model, {"key": "value"});
@@ -22,7 +22,7 @@ testModelAttributes() {
       });
     });
 
-    group("operator[]=", () {
+    group("[operator[]=]", () {
       setUp(() {
         model = new TestModel({});
         attrs = new ModelAttributes(model, {"key": "value"});
@@ -38,7 +38,7 @@ testModelAttributes() {
         expect(() => attrs["invalid"] = "value", throws);
       });
 
-      test("raises an event when the value has changed", () {
+      test("fires an event when the value has changed", () {
         model.events.onChange.listen(capturer.callback);
         attrs["key"] = "newValue";
 
@@ -47,7 +47,7 @@ testModelAttributes() {
         expect(capturer.event.newValue, equals("newValue"));
       });
 
-      test("does not raise an event when the new value is the same", () {
+      test("does not fire an event when the new value is the same", () {
         model.events.onChange.listen(capturer.callback);
         attrs["key"] = attrs["key"];
 
@@ -55,7 +55,7 @@ testModelAttributes() {
       });
     });
 
-    group("hasId", (){
+    group("[hasId]", (){
       test("is true when attributes containt id", (){
         attrs = new ModelAttributes(null, {"id": "value"});
         expect(attrs.hasId(), isTrue);
@@ -67,7 +67,7 @@ testModelAttributes() {
       });
     });
 
-    group("reset", (){
+    group("[reset]", (){
       setUp(() {
         model = new TestModel({});
         attrs = new ModelAttributes(model, {"key": "value"});

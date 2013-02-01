@@ -11,8 +11,8 @@ class TestModelValidator implements Validator {
 }
 
 testValidations() {
-  group("validators", () {
-    group("validators", () {
+  group("[validations]", () {
+    group("[validators]", () {
       var validations, model;
 
       setUp(() {
@@ -43,7 +43,7 @@ testValidations() {
       });
     });
 
-    group("composite validator", (){
+    group("[composite validator]", (){
       var validator, model;
 
       setUp(() {
@@ -60,7 +60,7 @@ testValidations() {
       });
     });
 
-    group("presense validator", () {
+    group("[presense validator]", () {
       var validator, model;
 
       setUp(() {
@@ -93,7 +93,7 @@ testValidations() {
       });
     });
 
-    group("numericality validator", () {
+    group("[numericality validator]", () {
       var validator, model;
 
       setUp(() {
@@ -121,7 +121,7 @@ testValidations() {
 
     });
 
-    group("dsl", () {
+    group("[dsl]", () {
       test("example", (){
         var model = new TestModel({"age": ""});
         var errors = validate().presence("age").numericality("age").of(model);
