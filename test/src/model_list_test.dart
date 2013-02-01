@@ -19,7 +19,7 @@ testModelLists() {
       });
 
       test("raises an event", () {
-        list.on.insert.add(capturer.callback);
+        list.events.onInsert.listen(capturer.callback);
         list.add(model);
 
         expect(capturer.event.model, equals(model));
@@ -44,7 +44,7 @@ testModelLists() {
       });
 
       test("raises an event", () {
-        list.on.insert.add(capturer.callback);
+        list.events.onInsert.listen(capturer.callback);
         list.add(model);
 
         expect(capturer.event.model, equals(model));
