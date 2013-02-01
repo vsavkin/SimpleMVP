@@ -2,12 +2,12 @@ part of vint_test;
 
 testModelLists() {
 
-  group("model_list_test", () {
+  group("[model list]", () {
     var capturer = new EventCapturer();
     var list;
     var model;
 
-    group("add", () {
+    group("[add]", () {
       setUp(() {
         list = new TestModelList();
         model = new TestModel({});
@@ -19,14 +19,14 @@ testModelLists() {
       });
 
       test("raises an event", () {
-        list.on.insert.add(capturer.callback);
+        list.events.onInsert.listen(capturer.callback);
         list.add(model);
 
         expect(capturer.event.model, equals(model));
       });
     });
 
-    group("remove", () {
+    group("[remove]", () {
       setUp(() {
         list = new TestModelList();
         model = new TestModel({});
@@ -44,7 +44,7 @@ testModelLists() {
       });
 
       test("raises an event", () {
-        list.on.insert.add(capturer.callback);
+        list.events.onInsert.listen(capturer.callback);
         list.add(model);
 
         expect(capturer.event.model, equals(model));

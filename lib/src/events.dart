@@ -1,64 +1,41 @@
 part of vint;
 
-typedef Listener(event);
-
-/**
-* Utility class to manage event listeners.
-*/
-class Listeners {
-  final List listeners = [];
-
-  Listeners add(Listener listener){
-    listeners.add(listener);
-    return this;
-  }
-
-  void dispatch(event) {
-    listeners.forEach((fn) {fn(event);});
-  }
-}
-
-/**
-* Utility class to manage multiple event types.
-*/
-class EventMap {
-  final Map _listeners = {};
-
-  Listeners listeners(String eventType){
-    _listeners.putIfAbsent(eventType, () => new Listeners());
-    return _listeners[eventType];
-  }
-
-  bool hasListeners(eventType)
-    => _listeners.containsKey(eventType);
-}
-
-
 /**
 * Utility class to be used by an application to transfer app events.
 */
 class EventBus {
-  final EventMap _map = new EventMap();
+  final _map = {};
 
-  void on(String eventType, Listener listener){
-    _map.listeners(eventType).add(listener);
+  Stream stream(String eventType){
+    _map.putIfAbsent(eventType, () => new StreamController.broadcast());
+    return _map[eventType].stream;
   }
 
-  void fire(String eventType, event){
-    if(_map.hasListeners(eventType)){
-      _map.listeners(eventType).dispatch(event);
-    }
+  StreamSink sink(String eventType){
+    _map.putIfAbsent(eventType, () => new StreamController.broadcast());
+    return _map[eventType].sink;
   }
 }
 
 /**
 * Event map for the ModelList class.
 */
-class CollectionEvents extends EventMap {
-  Listeners get reset => listeners("reset");
-  Listeners get insert => listeners("insert");
-  Listeners get remove => listeners("remove");
-  Listeners get update => listeners("update");
+class CollectionEvents {
+  final _reset = new StreamController.broadcast();
+  final _insert = new StreamController.broadcast();
+  final _remove = new StreamController.broadcast();
+  final _update = new StreamController.broadcast();
+
+
+  Stream<CollectionResetEvent> get onReset => _reset.stream;
+  Stream<CollectionInsertEvent> get onInsert => _insert.stream;
+  Stream<CollectionRemoveEvent> get onRemove => _remove.stream;
+  Stream get onUpdate => _update.stream;
+
+  void fireReset(CollectionResetEvent event) => _reset.add(event);
+  void fireInsert(CollectionInsertEvent event) => _insert.add(event);
+  void fireRemove(CollectionRemoveEvent event) => _remove.add(event);
+  void fireUpdate(event) => _update.add(event);
 }
 
 /**
@@ -91,9 +68,15 @@ class CollectionRemoveEvent {
 /**
 * Event map for the Model class.
 */
-class ModelEvents extends EventMap {
-  Listeners get change => listeners("change");
-  Listeners get validation => listeners("validation");
+class ModelEvents {
+  final _change = new StreamController.broadcast();
+  final _validation = new StreamController.broadcast();
+
+  Stream<ChangeEvent> get onChange => _change.stream;
+  Stream get onValidation => _validation.stream;
+
+  void fireChange(ChangeEvent event) => _change.add(event);
+  void fireValidation(event) => _validation.add(event);
 }
 
 /**

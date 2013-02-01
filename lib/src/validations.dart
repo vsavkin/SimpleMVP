@@ -18,22 +18,12 @@ class CustomValidator implements Validator {
     => _condition(model) ? {} :  _errors(model);
 }
 
-class Validations {
-  final List _validators = [];
-
-  void addValidator(Validator validator){
-    _validators.add(validator);
-  }
-
-  void add(Condition condition, Errors errors){
-    _validators.add(new CustomValidator(condition, errors));
-  }
+class CompositeValidator implements Validator {
+  final List parts = [];
 
   Map<String, List> validate(Model model){
-    var errors = _validators.mappedBy((_) => _.validate(model));
-    var mergedErrors = _mergeErrors(errors);
-    model.on.validation.dispatch(mergedErrors);
-    return mergedErrors;
+    var errors = parts.mappedBy((_) => _.validate(model));
+    return _mergeErrors(errors);
   }
 
   _mergeErrors(errors){
@@ -44,6 +34,24 @@ class Validations {
       });
       return memo;
     });
+  }
+}
+
+class Validations {
+  final _composite = new CompositeValidator();
+
+  void addValidator(Validator validator){
+    _composite.parts.add(validator);
+  }
+
+  void add(Condition condition, Errors errors){
+    addValidator(new CustomValidator(condition, errors));
+  }
+
+  Map<String, List> validate(Model model){
+    var errors = _composite.validate(model);
+    model.events.fireValidation(errors);
+    return errors;
   }
 }
 

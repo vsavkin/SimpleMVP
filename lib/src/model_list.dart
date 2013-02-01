@@ -4,7 +4,7 @@ part of vint;
 * The base class for evented model lists.
 */
 class ModelList<T extends Model> {
-  final CollectionEvents on = new CollectionEvents();
+  final CollectionEvents events = new CollectionEvents();
   List<T> models = [];
 
   forEach(fn(T)) => models.forEach(fn);
@@ -13,7 +13,7 @@ class ModelList<T extends Model> {
 
   void add(T model){
     models.add(model);
-    on.insert.dispatch(new CollectionInsertEvent(this, model));
+    events.fireInsert(new CollectionInsertEvent(this, model));
   }
 
   void remove(T model){
@@ -21,12 +21,12 @@ class ModelList<T extends Model> {
     if(index == -1) return;
 
     models.removeAt(index);
-    on.remove.dispatch(new CollectionRemoveEvent(this, model));
+    events.fireRemove(new CollectionRemoveEvent(this, model));
   }
 
   void reset(List list){
     models.clear();
     models.addAll(list);
-    on.reset.dispatch(new CollectionResetEvent(this));
+    events.fireReset(new CollectionResetEvent(this));
   }
 }

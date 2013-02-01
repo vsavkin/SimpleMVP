@@ -11,11 +11,10 @@ class TestModelValidator implements Validator {
 }
 
 testValidations() {
-  group("validations", () {
-    var model;
-    var validations;
+  group("[validations]", () {
+    group("[validators]", () {
+      var validations, model;
 
-    group("adding validators", () {
       setUp(() {
         model = new TestModel({"name" : "", "age" : "25"});
         validations = new Validations();
@@ -35,7 +34,7 @@ testValidations() {
 
       test("notifying the validated object", () {
         var e = new EventCapturer();
-        model.on.validation.add(e.callback);
+        model.events.onValidation.listen(e.callback);
 
         validations.add((m) => !m.name.isEmpty, (m) => {"name" : ["name cannot be blank"]});
         var errors = validations.validate(model);
@@ -44,66 +43,85 @@ testValidations() {
       });
     });
 
-    group("presense validator", () {
+    group("[composite validator]", (){
+      var validator, model;
+
+      setUp(() {
+        model = new TestModel({"name" : "", "age": ""});
+        validator = new CompositeValidator();
+        validator.parts.add(new PresenceValidator("name"));
+        validator.parts.add(new NumericalityValidator("age"));
+      });
+
+      test("merges errors from all the parts", (){
+        var errors = validator.validate(model);
+        expect(errors["name"], isNotNull);
+        expect(errors["age"], isNotNull);
+      });
+    });
+
+    group("[presense validator]", () {
+      var validator, model;
+
       setUp(() {
         model = new TestModel({"name" : ""});
-        validations = new Validations();
-        validations.addValidator(new PresenceValidator("name"));
+        validator = new PresenceValidator("name");
       });
 
       test("errors for an empty string", (){
         model.name = "";
-        var errors = validations.validate(model);
+        var errors = validator.validate(model);
         expect(errors["name"], isNotNull);
       });
 
       test("errors for null", () {
         model.name = null;
-        var errors = validations.validate(model);
+        var errors = validator.validate(model);
         expect(errors["name"], isNotNull);
       });
 
       test("doens't error for a non-empty string", (){
         model.name = "jim";
-        var errors = validations.validate(model);
+        var errors = validator.validate(model);
         expect(errors["name"], isNull);
       });
 
       test("doens't error for an object", (){
         model.name = 100;
-        var errors = validations.validate(model);
+        var errors = validator.validate(model);
         expect(errors["name"], isNull);
       });
     });
 
-    group("numericality validator", () {
+    group("[numericality validator]", () {
+      var validator, model;
+
       setUp(() {
         model = new TestModel({"age": ""});
-        validations = new Validations();
-        validations.addValidator(new NumericalityValidator("age"));
+        validator = new NumericalityValidator("age");
       });
 
       test("doens't error when string is parseable", (){
         model.age = "25";
-        var errors = validations.validate(model);
+        var errors = validator.validate(model);
         expect(errors["age"], isNull);
       });
 
       test("errors otherwise", (){
         model.age = "sdks";
-        var errors = validations.validate(model);
+        var errors = validator.validate(model);
         expect(errors["age"], isNotNull);
       });
 
       test("doesn't error for null", () {
         model.age = null;
-        var errors = validations.validate(model);
+        var errors = validator.validate(model);
         expect(errors["age"], isNull);
       });
 
     });
 
-    group("dsl", () {
+    group("[dsl]", () {
       test("example", (){
         var model = new TestModel({"age": ""});
         var errors = validate().presence("age").numericality("age").of(model);

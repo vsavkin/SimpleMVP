@@ -1,10 +1,10 @@
 part of vint_test;
 
 testModels() {
-  group("model_test", () {
+  group("[model]", () {
     var model;
     
-    group("saved", () {
+    group("[saved]", () {
       test("is true when id is set", () {
         model = new TestModel({"id": 1});
         expect(model.saved, isTrue);
@@ -16,7 +16,7 @@ testModels() {
       });
     });
 
-    group("attributes", () {
+    group("[attributes]", () {
       setUp(() {
         model = new TestModel({"key": "value"});
       });
