@@ -6,7 +6,7 @@ part of vint;
 abstract class Model {
   ModelAttributes attributes;
 
-  final ModelEvents on = new ModelEvents();
+  final ModelEvents events = new ModelEvents();
 
   Model(Map attributes){
     this.attributes = new ModelAttributes(this, attributes);

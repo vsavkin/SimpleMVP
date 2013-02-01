@@ -39,7 +39,7 @@ testModelAttributes() {
       });
 
       test("raises an event when the value has changed", () {
-        model.on.change.add(capturer.callback);
+        model.events.onChange.listen(capturer.callback);
         attrs["key"] = "newValue";
 
         expect(capturer.event.attrName, equals("key"));
@@ -48,7 +48,7 @@ testModelAttributes() {
       });
 
       test("does not raise an event when the new value is the same", () {
-        model.on.change.add(capturer.callback);
+        model.events.onChange.listen(capturer.callback);
         attrs["key"] = attrs["key"];
 
         expect(capturer.event, isNull);

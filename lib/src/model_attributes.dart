@@ -38,7 +38,7 @@ class ModelAttributes {
 
     if(value != oldValue){
       var event = new ChangeEvent(model, name, oldValue, value);
-      model.on.change.dispatch(event);
+      model.events.fireChange(event);
     }
   }
 
