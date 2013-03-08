@@ -2,14 +2,21 @@ part of vint_test;
 
 testRepositories() {
   group("[repository]", () {
-    var repo = new TestModelRepo();
-    Mock storage = repo.storage as Mock;
+
+    var repo, storage;
 
     group("[read]", () {
+      setUp((){
+        repo = new TestDoubleRepo();
+        storage = repo.storage;
+      });
+
+      tearDown((){
+        currentTestRun.verify();
+      });
+
       test("wraps that hash returned by the storage", () {
-        storage.
-          when(callsTo('read', 1)).
-          alwaysReturn(new Future.immediate({"key" : "value"}));
+        storage.stub("read").args(1).andReturn(new Future.immediate({"key" : "value"}));
 
         repo.read(1).then((model){
           expect(model.key, equals("value"));
@@ -18,24 +25,35 @@ testRepositories() {
     });
 
     group("[find]", () {
+      setUp((){
+        repo = new TestDoubleRepo();
+        storage = repo.storage;
+      });
+
       test("wraps that hash returned by the storage", () {
-        storage.
-          when(callsTo('find', {"filter" : 1})).
-          alwaysReturn(new Future.immediate([{"key" : "value"}]));
+        storage.stub("find").args({"filter" : 1}).andReturn(new Future.immediate([{"key" : "value"}]));
 
         repo.find({"filter" : 1}).then((listOfModels){
-          expect(listOfModels[0].key, equals("value"));
+          expect(listOfModels.first.key, equals("value"));
         });
       });
     });
 
     group("[save]", () {
+      setUp((){
+        repo = new TestDoubleRepo();
+        storage = repo.storage;
+      });
+
+      tearDown((){
+        currentTestRun.verify();
+      });
+
+
       test("passes the list of attributes to storage", () {
         var model = new TestModel({"key" : "value"});
 
-        storage.
-          when(callsTo('save', {"key" : "value"})).
-          thenReturn(new Future.immediate({}));
+        storage.shouldReceive("save").args({"key" : "value"}).andReturn(new Future.immediate({}));
 
         repo.save(model);
       });
@@ -43,9 +61,7 @@ testRepositories() {
       test("returns an updated model", () {
         var model = new TestModel({"key" : "value"});
 
-        storage.
-          when(callsTo('save')).
-          alwaysReturn(new Future.immediate({"key" : "value2"}));
+        storage.stub("save").andReturn(new Future.immediate({"key" : "value2"}));
 
         repo.save(model).then((updatedModel){
           expect(updatedModel.key, equals("value2"));
@@ -55,9 +71,7 @@ testRepositories() {
       test("updates the model", () {
         var model = new TestModel({"key" : "value"});
 
-        storage.
-          when(callsTo('save')).
-          alwaysReturn(new Future.immediate({"key" : "value2"}));
+        storage.stub("save").andReturn(new Future.immediate({"key" : "value2"}));
 
         repo.save(model).then((updatedModel){
           expect(model.key, equals("value2"));
@@ -66,12 +80,19 @@ testRepositories() {
     });
 
     group("[destroy]", () {
+      setUp((){
+        repo = new TestDoubleRepo();
+        storage = repo.storage;
+      });
+
+      tearDown((){
+        currentTestRun.verify();
+      });
+
       test("calls destroy on storage", () {
         var model = new TestModel({"id" : 1});
 
-        storage.
-          when(callsTo('destroy', 1)).
-          alwaysReturn(new Future.immediate(true));
+        storage.shouldReceive("destroy").args(1).andReturn(new Future.immediate(true));
 
         repo.destroy(model);
       });

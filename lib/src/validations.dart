@@ -22,7 +22,7 @@ class CompositeValidator implements Validator {
   final List parts = [];
 
   Map<String, List> validate(Model model){
-    var errors = parts.mappedBy((_) => _.validate(model));
+    var errors = parts.map((_) => _.validate(model));
     return _mergeErrors(errors);
   }
 

@@ -8,7 +8,7 @@ class EventCapturer {
   }
 }
 
-class MockStorage extends Mock implements Storage {}
+class TestDoubleStorage extends TestDouble implements Storage {}
 
 class TestModel extends Model {
   TestModel(attrs): super(attrs);
@@ -17,7 +17,7 @@ class TestModel extends Model {
 class TestModelList extends ModelList<TestModel> {
 }
 
-class TestModelRepo extends Repository<TestModel> {
-  TestModelRepo() : super(new MockStorage());
+class TestDoubleRepo extends Repository<TestModel> {
+  TestDoubleRepo() : super(new TestDoubleStorage());
   makeInstance(attrs) => new TestModel(attrs);
 }
