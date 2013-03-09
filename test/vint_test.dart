@@ -1,7 +1,7 @@
 library vint_test;
 
 import 'package:unittest/unittest.dart';
-import 'package:unittest/mock.dart';
+import 'package:dartmocks/dartmocks.dart';
 import 'package:vint/vint.dart';
 
 import 'dart:html' as html;

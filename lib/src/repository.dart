@@ -25,5 +25,5 @@ abstract class Repository<T extends Model> {
   Future destroy(T t)
     => storage.destroy(t.id);
 
-  _makeInstances(list) => list.mappedBy((a) => makeInstance(a));
+  _makeInstances(list) => list.map((a) => makeInstance(a)).toList();
 }
