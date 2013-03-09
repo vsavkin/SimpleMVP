@@ -32,8 +32,7 @@ class RestfulStorage implements Storage {
 
   _createRequest(method, url, callback){
     var req = new html.HttpRequest();
-
-    req.on.load.add((e){
+    req.onLoad.listen((e){
       String response = req.response;
       var parsedResponse = response.isEmpty ? {} : json.parse(response);
       callback(parsedResponse);
