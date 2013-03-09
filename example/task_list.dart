@@ -130,10 +130,10 @@ class TasksPresenter extends smvp.Presenter<Tasks>{
 
   _rerenderTasks(event){
     var t = el.query("#tasks");
-    t.elements.clear();
+    t.children.clear();
     
     _buildPresenters().forEach((v){
-      t.elements.add(v.render().el);
+      t.children.add(v.render().el);
     });
   }
   
@@ -155,6 +155,6 @@ main() {
 
   var newTaskPresenter = new NewTaskPresenter(repo, tasks, new Element.tag("div"));
   var tasksPresenter = new TasksPresenter(repo, tasks, new Element.tag("div"));
-  
-  query("#container").elements.addAll([newTaskPresenter.render().el, tasksPresenter.render().el]);
+
+  query("#container").children.addAll([newTaskPresenter.render().el, tasksPresenter.render().el]);
 }
