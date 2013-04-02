@@ -97,5 +97,31 @@ testRepositories() {
         repo.destroy(model);
       });
     });
+
+    group("[error handling]", () {
+      setUp((){
+        repo = new TestDoubleRepo();
+        storage = repo.storage;
+      });
+
+      test("calls the default error handler when it is set", () {
+        var capturer = new EventCapturer();
+        repo.onError = capturer.callback;
+
+        storage.stub("read").andReturn(new Future.immediateError("ERROR"));
+
+        repo.read(1).then((_){
+          expect(capturer.event.error, equals("ERROR"));
+        });
+      });
+
+      test("returns failing future when no default error handler", () {
+        storage.stub("read").andReturn(new Future.immediateError("ERROR"));
+
+        repo.read(1).catchError((e){
+          expect(e.error, equals("ERROR"));
+        });
+      });
+    });
   });
 }
