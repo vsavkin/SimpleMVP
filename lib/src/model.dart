@@ -14,8 +14,6 @@ abstract class Model {
 
   get id => attributes["id"];
 
-  bool get saved => attributes.hasId();
-
   operator [] (String name) => attributes[name];
 
   operator []= (String name, value) => attributes[name] = value;

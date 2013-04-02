@@ -3,18 +3,6 @@ part of vint_test;
 testModels() {
   group("[model]", () {
     var model;
-    
-    group("[saved]", () {
-      test("is true when id is set", () {
-        model = new TestModel({"id": 1});
-        expect(model.saved, isTrue);
-      });
-
-      test("is false otherwise", () {
-        model = new TestModel({});
-        expect(model.saved, isFalse);
-      });
-    });
 
     group("[attributes]", () {
       setUp(() {
