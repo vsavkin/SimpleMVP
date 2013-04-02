@@ -38,7 +38,7 @@ class RestfulStorage implements Storage {
       callback(parsedResponse);
     });
 
-    req.open(method, url, true);
+    req.open(method, url, async: true);
     return req;
   }
 }
