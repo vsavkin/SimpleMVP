@@ -14,4 +14,3 @@ part 'src/model_list.dart';
 part 'src/model.dart';
 part 'src/delegated_event.dart';
 part 'src/presenter.dart';
-part 'src/collection_presenter.dart';

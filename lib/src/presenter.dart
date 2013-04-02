@@ -7,10 +7,11 @@ typedef String Template<T>(T model);
 * Sends commands to the model when the associated view changes.
 * Updates the view when the model changes.
 */
-class Presenter<T> {
+abstract class Presenter<T> {
   final html.Element el;
-  final Template<T> template;
   final T model;
+
+  final List<StreamSubscription> streamSubscriptions = [];
 
   /**
    * Improves readability when the model is a list.
@@ -42,33 +43,70 @@ class Presenter<T> {
    **/
   Map get ui => {};
 
-  Presenter(this.model, this.el, [this.template]){
+  Presenter(this.model, this.el){
     subscribeToModelEvents();
     subscribeToDOMEvents();
   }
 
-  Presenter<T> render(){
-    if(template != null){
-      el.innerHtml = template(model);
-    }
-    return this;
-  }
+  Presenter<T> render();
 
   void subscribeToDOMEvents(){
     events.forEach((eventSelector, callback){
-      new _DelegatedEvent(eventSelector, callback).registerOn(el);
+      var delegate = new _DelegatedEvent(eventSelector, callback);
+      streamSubscriptions.add(delegate.registerOn(el));
     });
   }
 
   void subscribeToModelEvents(){
   }
 
-  noSuchMethod(InvocationMirror invocation){
-    if(invocation.isGetter){
-      if(ui.containsKey(invocation.memberName)){
-        return el.query(ui[invocation.memberName]);
-      }
-    }
-    throw new NoSuchMethodError(this, invocation.memberName, invocation.positionalArguments, invocation.namedArguments);
+  dispose(){
+    streamSubscriptions..forEach((_) => _.cancel())..clear();
   }
+
+  noSuchMethod(InvocationMirror invocation){
+    if(invocation.isGetter && ui.containsKey(invocation.memberName)){
+      return el.query(ui[invocation.memberName]);
+    }
+    super.noSuchMethod(invocation);
+  }
+}
+
+
+/**
+* A template based implementation of Presenter.
+* A subclass must define the template property.
+*/
+abstract class TemplateBasedPresenter<T> extends Presenter<T> {
+  Template<T> get template;
+  
+  TemplateBasedPresenter(model, el) : super(model, el);
+  
+  Presenter<T> render(){
+    if(template != null){
+      el.innerHtml = template(model);
+    }
+    return this;
+  }
+}
+
+
+/**
+* An implementation of Presenter rendering a collection of models.
+* A subclass must define the makeItemPresenter constructor.
+*/
+abstract class CollectionPresenter<T> extends Presenter<T>{
+  Presenter makeItemPresenter(obj);
+
+  CollectionPresenter(model, el) : super(model, el);
+
+  Presenter<T> render() {
+    el.children..clear()
+               ..addAll(_buildItemElements());
+    return this;
+  }
+
+  _buildItemElements() => model.
+                          map((model) => makeItemPresenter(model)).
+                          map((presenter) => presenter.render().el);
 }
