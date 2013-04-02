@@ -37,7 +37,7 @@ class CompositeValidator implements Validator {
   }
 }
 
-class Validations {
+class Validations implements Validator {
   final _composite = new CompositeValidator();
 
   void addValidator(Validator validator){
