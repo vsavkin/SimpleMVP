@@ -12,6 +12,8 @@ class Presenter<T> {
   final Template<T> template;
   final T model;
 
+  final List<StreamSubscription> streamSubscriptions = [];
+
   /**
    * Improves readability when the model is a list.
    **/
@@ -56,11 +58,17 @@ class Presenter<T> {
 
   void subscribeToDOMEvents(){
     events.forEach((eventSelector, callback){
-      new _DelegatedEvent(eventSelector, callback).registerOn(el);
+      var delegate = new _DelegatedEvent(eventSelector, callback);
+      streamSubscriptions.add(delegate.registerOn(el));
     });
   }
 
   void subscribeToModelEvents(){
+  }
+
+  dispose(){
+    streamSubscriptions.forEach((_) => _.cancel());
+    streamSubscriptions.clear();
   }
 
   noSuchMethod(InvocationMirror invocation){

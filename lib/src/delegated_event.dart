@@ -8,10 +8,10 @@ class _DelegatedEvent {
 
   _DelegatedEvent(this._eventSelector, this._callback);
 
-  void registerOn(html.Element parent) {
+  StreamSubscription registerOn(html.Element parent) {
     var parentCallback = createCallbackOn(parent);
     var eventList = parent.on[eventType()];
-    eventList.listen(parentCallback);
+    return eventList.listen(parentCallback);
   }
 
   createCallbackOn(parent) => (event) {
