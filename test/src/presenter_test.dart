@@ -1,7 +1,9 @@
 part of vint_test;
 
-class TestPresenter extends Presenter {
+class TestPresenter extends TemplateBasedPresenter {
   var counter = 0;
+
+  get template => (model) => model;
 
   get ui => {
     "someDiv" : "#some-div",
@@ -12,8 +14,14 @@ class TestPresenter extends Presenter {
     "click button" : (e){}
   };
 
-  TestPresenter(model, el, template) : super(model, el, template);
-  TestPresenter.fromEl(el) : this(null, el, null);
+  TestPresenter(model, el) : super(model, el);
+  TestPresenter.fromEl(el) : this(null, el);
+}
+
+class TestCollectionPresenter extends CollectionPresenter {
+  makeItemPresenter(item) => new TestPresenter(item, new html.LIElement());
+
+  TestCollectionPresenter(list, el) : super(list, el);
 }
 
 
@@ -52,18 +60,37 @@ testPresenters() {
       });
     });
 
-    group("[render]", () {
+    group("[template based render]", () {
       var presenter, el;
 
       setUp(() {
         el = new html.DivElement();
-        presenter = new TestPresenter("my model", el, (m) => m);
+        presenter = new TestPresenter("my model", el);
       });
 
       test("renders the template", (){
         presenter.render();
 
         expect(el.innerHtml, equals("my model"));
+      });
+
+      test("returns itself", (){
+        expect(presenter.render(), equals(presenter));
+      });
+    });
+
+    group("[collection presenter]", (){
+      var presenter, el;
+
+      setUp(() {
+        el = new html.DivElement();
+        presenter = new TestCollectionPresenter(["one", "two"], el);
+      });
+
+      test("renders the template", (){
+        presenter.render();
+
+        expect(el.innerHtml, equals("<li>one</li><li>two</li>"));
       });
 
       test("returns itself", (){

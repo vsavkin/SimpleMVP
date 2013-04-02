@@ -1,15 +1,15 @@
 import 'dart:html';
-import 'package:vint/vint.dart' as smvp;
+import 'package:vint/vint.dart';
 
-class TasksRepository extends smvp.Repository<Task> {
+class TasksRepository extends Repository<Task> {
   TasksRepository(storage) : super(storage);
   makeInstance(attrs) => new Task(attrs);
 }
 
-class Tasks extends smvp.ModelList<Task> {
+class Tasks extends ModelList<Task> {
 }
 
-class Task extends smvp.Model {
+class Task extends Model {
   Task(attrs): super(attrs);
   Task.fromText(String text): this({"text": text, "status": "inProgress"});
 
@@ -44,19 +44,15 @@ newTaskTemplate(c) => """
 </div>
 """;
 
-taskListTemplate(c) => """
-<div id="tasks">
-</div>
-""";
 
 
-
-
-class TaskPresenter extends smvp.Presenter<Task> {
+class TaskPresenter extends TemplateBasedPresenter<Task> {
   Tasks tasks;
   TasksRepository repo;
 
-  TaskPresenter(this.repo, this.tasks, task, el) : super(task, el, oneTaskTemplate);
+  TaskPresenter(this.repo, this.tasks, task, el) : super(task, el);
+  
+  get template => oneTaskTemplate;
 
   subscribeToModelEvents() {
     model.events.onChange.listen(_onChange);
@@ -83,12 +79,14 @@ class TaskPresenter extends smvp.Presenter<Task> {
   }
 }
 
-class NewTaskPresenter extends smvp.Presenter {
+class NewTaskPresenter extends TemplateBasedPresenter<Tasks> {
   TasksRepository repo;
   Tasks tasks;
 
-  NewTaskPresenter(this.repo, this.tasks, el) :super(null, el, newTaskTemplate);
+  NewTaskPresenter(this.repo, this.tasks, el) : super(null, el);
 
+  get template => newTaskTemplate;
+  
   get events => {
     "click button": _addNewTask,
     "keypress input": _maybeAddNewTask
@@ -115,13 +113,12 @@ class NewTaskPresenter extends smvp.Presenter {
   }
 }
 
-class TasksPresenter extends smvp.CollectionPresenter<Tasks>{
+class TasksPresenter extends CollectionPresenter<Tasks> {
   TasksRepository repo;
 
   makeItemPresenter(t) => new TaskPresenter(repo, modelList, t, new Element.tag("li"));
-  get collectionElement => "#tasks";
 
-  TasksPresenter(this.repo, tasks, el) : super(tasks, el, taskListTemplate){
+  TasksPresenter(this.repo, tasks, el) : super(tasks, el){
     repo.find().then((list) => model.reset(list));
   }
 
@@ -133,7 +130,7 @@ class TasksPresenter extends smvp.CollectionPresenter<Tasks>{
 }
 
 main() {
-  var storage = new smvp.RestfulStorage({
+  var storage = new RestfulStorage({
     "find": "/api/tasks",
     "read": "/api/task",
     "create": "/api/tasks",
@@ -145,7 +142,7 @@ main() {
   var tasks = new Tasks();
 
   var newTaskPresenter = new NewTaskPresenter(repo, tasks, new Element.tag("div"));
-  var tasksPresenter = new TasksPresenter(repo, tasks, new Element.tag("div"));
+  var tasksPresenter = new TasksPresenter(repo, tasks, new Element.tag("ul"));
 
   query("#container").children.addAll([newTaskPresenter.render().el, tasksPresenter.render().el]);
 }
