@@ -115,30 +115,21 @@ class NewTaskPresenter extends smvp.Presenter {
   }
 }
 
-class TasksPresenter extends smvp.Presenter<Tasks>{
+class TasksPresenter extends smvp.CollectionPresenter<Tasks>{
   TasksRepository repo;
+
+  makeItemPresenter(t) => new TaskPresenter(repo, modelList, t, new Element.tag("li"));
+  get collectionElement => "#tasks";
 
   TasksPresenter(this.repo, tasks, el) : super(tasks, el, taskListTemplate){
     repo.find().then((list) => model.reset(list));
   }
 
   subscribeToModelEvents(){
-    model.events.onReset.listen(_rerenderTasks);
-    model.events.onInsert.listen(_rerenderTasks);
-    model.events.onRemove.listen(_rerenderTasks);
+    model.events.onReset.listen((_) => render());
+    model.events.onInsert.listen((_) => render());
+    model.events.onRemove.listen((_) => render());
   }
-
-  _rerenderTasks(event){
-    var t = el.query("#tasks");
-    t.children.clear();
-    
-    _buildPresenters().forEach((v){
-      t.children.add(v.render().el);
-    });
-  }
-  
-  _buildPresenters() => modelList.map((t) => _buildPresenter(t));
-  _buildPresenter(t) => new TaskPresenter(repo, modelList, t, new Element.tag("li"));
 }
 
 main() {

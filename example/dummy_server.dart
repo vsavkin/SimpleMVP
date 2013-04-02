@@ -62,9 +62,9 @@ class ApiHandler {
     });
   }
 
-  _render(contentType, body, response){
+  _render(contentType, body, HttpResponse response){
     response.headers.set(HttpHeaders.CONTENT_TYPE, "$contentType; charset=UTF-8");
-    response.addString(body);
+    response.write(body);
     response.close();
   }
 }
