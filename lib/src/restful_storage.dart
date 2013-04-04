@@ -1,7 +1,7 @@
 part of vint;
 
 /**
-* An implementaion of the Storage interface for a restful backend.
+* An implementation of the Storage interface for a restful backend.
 */
 class RestfulStorage implements Storage {
   final _urls;
@@ -12,33 +12,31 @@ class RestfulStorage implements Storage {
 
   Future<Map> read(id) => _submit("GET", _urls["read"], id: id);
 
-  Future<Map> save(Map attrs){
-    if(attrs.containsKey("id")){
-      return _submit("PUT", _urls["update"], id: attrs["id"], body: attrs);
-    } else {
-      return _submit("POST", _urls["create"], body: attrs);
-    }
-  }
+  Future<Map> save(Map attrs) =>
+    attrs.containsKey("id") ?
+      _submit("PUT", _urls["update"], id: attrs["id"], body: attrs) :
+      _submit("POST", _urls["create"], body: attrs);
 
   Future destroy(id) => _submit("DELETE", _urls["destroy"], id: id);
 
-  _submit(method, url, {id, body}){
+  _submit(method, baseUrl, {id, body}){
     var c = new Completer();
-    url = id != null ? "$url/$id" : url;
-    var req = _createRequest(method, url, (res) => c.complete(res));
-    req.send(json.stringify(body));
+    var url = id != null ? "$baseUrl/$id" : baseUrl;
+    var payload = json.stringify(body);
+
+    _createRequest(method, url, payload, (req){
+      var response = req.response;
+      var parsedResponse = response.isEmpty ? {} : json.parse(response);
+      req.status == 200 ? c.complete(parsedResponse) : c.completeError(parsedResponse);
+    });
+
     return c.future;
   }
 
-  _createRequest(method, url, callback){
+  _createRequest(method, url, body, callback){
     var req = new html.HttpRequest();
-    req.onLoad.listen((e){
-      String response = req.response;
-      var parsedResponse = response.isEmpty ? {} : json.parse(response);
-      callback(parsedResponse);
-    });
-
+    req.onLoad.listen((_) => callback(req));
     req.open(method, url, async: true);
-    return req;
+    req.send(body);
   }
 }
