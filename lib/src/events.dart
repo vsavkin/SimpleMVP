@@ -15,6 +15,12 @@ class EventBus {
     _map.putIfAbsent(eventType, () => new StreamController.broadcast());
     return _map[eventType].sink;
   }
+
+  StreamSubscription listen(String eventType, callback) =>
+    stream(eventType).listen(callback);
+
+  fire(String eventType, event) =>
+    sink(eventType).add(event);
 }
 
 /**
