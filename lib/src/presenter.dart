@@ -64,7 +64,7 @@ abstract class Presenter<T> {
     streamSubscriptions..forEach((_) => _.cancel())..clear();
   }
 
-  noSuchMethod(InvocationMirror invocation){
+  noSuchMethod(Invocation invocation){
     if(invocation.isGetter && ui.containsKey(invocation.memberName)){
       return el.query(ui[invocation.memberName]);
     }
