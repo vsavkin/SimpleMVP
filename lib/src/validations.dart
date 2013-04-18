@@ -27,7 +27,7 @@ class CompositeValidator implements Validator {
   }
 
   _mergeErrors(errors){
-    return errors.reduce({}, (memo, curr){
+    return errors.fold({}, (memo, curr){
       curr.forEach((field, fieldErrors){
         memo.putIfAbsent(field, () => []);
         memo[field].addAll(fieldErrors);

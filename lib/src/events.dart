@@ -7,12 +7,12 @@ class EventBus {
   final _map = {};
 
   Stream stream(String eventType){
-    _map.putIfAbsent(eventType, () => new StreamController.broadcast());
+    _map.putIfAbsent(eventType, () => new StreamController());
     return _map[eventType].stream;
   }
 
-  StreamSink sink(String eventType){
-    _map.putIfAbsent(eventType, () => new StreamController.broadcast());
+  EventSink sink(String eventType){
+    _map.putIfAbsent(eventType, () => new StreamController());
     return _map[eventType].sink;
   }
 
@@ -27,21 +27,32 @@ class EventBus {
 * Event map for the ModelList class.
 */
 class CollectionEvents {
-  final _reset = new StreamController.broadcast();
-  final _insert = new StreamController.broadcast();
-  final _remove = new StreamController.broadcast();
-  final _update = new StreamController.broadcast();
+  var _resetController, _insertController, _removeController, _updateController;
+  var _resetStream, _insertStream, _removeStream, _updateStream;
 
+  CollectionEvents(){
+    _resetController = new StreamController();
+    _resetStream = _resetController.stream.asBroadcastStream();
 
-  Stream<CollectionResetEvent> get onReset => _reset.stream;
-  Stream<CollectionInsertEvent> get onInsert => _insert.stream;
-  Stream<CollectionRemoveEvent> get onRemove => _remove.stream;
-  Stream get onUpdate => _update.stream;
+    _insertController = new StreamController();
+    _insertStream = _insertController.stream.asBroadcastStream();
 
-  void fireReset(CollectionResetEvent event) => _reset.add(event);
-  void fireInsert(CollectionInsertEvent event) => _insert.add(event);
-  void fireRemove(CollectionRemoveEvent event) => _remove.add(event);
-  void fireUpdate(event) => _update.add(event);
+    _removeController = new StreamController();
+    _removeStream = _removeController.stream.asBroadcastStream();
+
+    _updateController = new StreamController();
+    _updateStream = _updateController.stream.asBroadcastStream();
+  }
+
+  Stream<CollectionResetEvent> get onReset => _resetStream;
+  Stream<CollectionInsertEvent> get onInsert => _insertStream;
+  Stream<CollectionRemoveEvent> get onRemove => _removeStream;
+  Stream get onUpdate => _updateStream;
+
+  void fireReset(CollectionResetEvent event) => _resetController.add(event);
+  void fireInsert(CollectionInsertEvent event) => _insertController.add(event);
+  void fireRemove(CollectionRemoveEvent event) => _removeController.add(event);
+  void fireUpdate(event) => _updateController.add(event);
 }
 
 /**
@@ -75,14 +86,25 @@ class CollectionRemoveEvent {
 * Event map for the Model class.
 */
 class ModelEvents {
-  final _change = new StreamController.broadcast();
-  final _validation = new StreamController.broadcast();
+  var _changeController;
+  var _changeStream;
+  
+  var _validationController;
+  var _validationStream;
+  
+  ModelEvents(){
+    _changeController = new StreamController();
+    _changeStream = _changeController.stream.asBroadcastStream();
+      
+    _validationController = new StreamController();
+    _validationStream = _validationController.stream.asBroadcastStream();
+  }
 
-  Stream<ChangeEvent> get onChange => _change.stream;
-  Stream get onValidation => _validation.stream;
+  Stream<ChangeEvent> get onChange => _changeStream;
+  Stream get onValidation => _validationStream;
 
-  void fireChange(ChangeEvent event) => _change.add(event);
-  void fireValidation(event) => _validation.add(event);
+  void fireChange(ChangeEvent event) => _changeController.add(event);
+  void fireValidation(event) => _validationController.add(event);
 }
 
 /**

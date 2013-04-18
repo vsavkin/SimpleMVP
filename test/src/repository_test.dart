@@ -16,7 +16,7 @@ testRepositories() {
       });
 
       test("wraps that hash returned by the storage", () {
-        storage.stub("read").args(1).andReturn(new Future.immediate({"key" : "value"}));
+        storage.stub("read").args(1).andReturn(new Future.value({"key" : "value"}));
 
         repo.read(1).then((model){
           expect(model.key, equals("value"));
@@ -31,7 +31,7 @@ testRepositories() {
       });
 
       test("wraps that hash returned by the storage", () {
-        storage.stub("find").args({"filter" : 1}).andReturn(new Future.immediate([{"key" : "value"}]));
+        storage.stub("find").args({"filter" : 1}).andReturn(new Future.value([{"key" : "value"}]));
 
         repo.find({"filter" : 1}).then((listOfModels){
           expect(listOfModels.first.key, equals("value"));
@@ -53,7 +53,7 @@ testRepositories() {
       test("passes the list of attributes to storage", () {
         var model = new TestModel({"key" : "value"});
 
-        storage.shouldReceive("save").args({"key" : "value"}).andReturn(new Future.immediate({}));
+        storage.shouldReceive("save").args({"key" : "value"}).andReturn(new Future.value({}));
 
         repo.save(model);
       });
@@ -61,7 +61,7 @@ testRepositories() {
       test("returns an updated model", () {
         var model = new TestModel({"key" : "value"});
 
-        storage.stub("save").andReturn(new Future.immediate({"key" : "value2"}));
+        storage.stub("save").andReturn(new Future.value({"key" : "value2"}));
 
         repo.save(model).then((updatedModel){
           expect(updatedModel.key, equals("value2"));
@@ -71,7 +71,7 @@ testRepositories() {
       test("updates the model", () {
         var model = new TestModel({"key" : "value"});
 
-        storage.stub("save").andReturn(new Future.immediate({"key" : "value2"}));
+        storage.stub("save").andReturn(new Future.value({"key" : "value2"}));
 
         repo.save(model).then((updatedModel){
           expect(model.key, equals("value2"));
@@ -92,7 +92,7 @@ testRepositories() {
       test("calls destroy on storage", () {
         var model = new TestModel({"id" : 1});
 
-        storage.shouldReceive("destroy").args(1).andReturn(new Future.immediate(true));
+        storage.shouldReceive("destroy").args(1).andReturn(new Future.value(true));
 
         repo.destroy(model);
       });
@@ -108,7 +108,7 @@ testRepositories() {
         var capturer = new EventCapturer();
         repo.onError = capturer.callback;
 
-        storage.stub("read").andReturn(new Future.immediateError("ERROR"));
+        storage.stub("read").andReturn(new Future.error(stub({"get error": "ERROR"})));
 
         repo.read(1).then((_){
           expect(capturer.event.error, equals("ERROR"));
@@ -116,7 +116,7 @@ testRepositories() {
       });
 
       test("returns failing future when no default error handler", () {
-        storage.stub("read").andReturn(new Future.immediateError("ERROR"));
+        storage.stub("read").andReturn(new Future.error(stub({"get error": "ERROR"})));
 
         repo.read(1).catchError((e){
           expect(e.error, equals("ERROR"));

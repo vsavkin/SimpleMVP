@@ -18,7 +18,7 @@ abstract class Model {
 
   operator []= (String name, value) => attributes[name] = value;
 
-  noSuchMethod(InvocationMirror invocation){
+  noSuchMethod(invocation){
     if(invocation.isGetter){
       return this[invocation.memberName];
     } else if (invocation.isSetter){

@@ -1,10 +1,9 @@
 name: vint
-version: 0.6.3
-description: >
-  VINT is a framework for writing single-page applications in Dart.
+version: 0.7.0
 author: Victor Savkin <vic.savkin@gmail.com>
+description: VINT is a framework for writing single-page applications in Dart.
 homepage: http://vintdart.com
-dependencies:
+dev_dependencies:
   unittest: any
-  browser: any
   dartmocks: any
+  browser: any
