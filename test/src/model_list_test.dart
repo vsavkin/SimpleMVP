@@ -1,7 +1,6 @@
 part of vint_test;
 
 testModelLists() {
-
   group("[model list]", () {
     var capturer = new EventCapturer();
     var list;
