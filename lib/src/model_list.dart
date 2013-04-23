@@ -3,13 +3,11 @@ part of vint;
 /**
 * The base class for evented model lists.
 */
-class ModelList<T extends Model> {
+class ModelList<T extends Model> extends Object with IterableMixin<T> {
   final CollectionEvents events = new CollectionEvents();
-  List<T> models = [];
-
-  forEach(fn(T)) => models.forEach(fn);
-
-  map(fn(T)) => models.map(fn);
+  final List<T> models = [];
+  
+  get iterator => models.iterator;
 
   void add(T model){
     models.add(model);
