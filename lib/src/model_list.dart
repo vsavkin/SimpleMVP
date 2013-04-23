@@ -5,10 +5,13 @@ part of vint;
 */
 class ModelList<T extends Model> extends Object with IterableMixin<T> {
   final CollectionEvents events = new CollectionEvents();
-  final List<T> models = [];
+  final List<T> models;
   
   get iterator => models.iterator;
-
+  
+  ModelList([List<T> models])
+      : models = _models(models); 
+  
   void add(T model){
     models.add(model);
     events.fireInsert(new CollectionInsertEvent(this, model));
@@ -27,4 +30,6 @@ class ModelList<T extends Model> extends Object with IterableMixin<T> {
     models.addAll(list);
     events.fireReset(new CollectionResetEvent(this));
   }
+  
+  static _models(models) => models != null ? models : [];
 }

@@ -15,6 +15,7 @@ class TestModel extends Model {
 }
 
 class TestModelList extends ModelList<TestModel> {
+  TestModelList([models]) : super(models);
 }
 
 class TestDoubleRepo extends Repository<TestModel> {
