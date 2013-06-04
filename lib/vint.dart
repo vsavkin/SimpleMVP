@@ -4,6 +4,7 @@ import 'dart:html' as html;
 import 'dart:json' as json;
 import 'dart:async';
 import 'dart:collection';
+import 'dart:mirrors';
 
 part 'src/model_attributes.dart';
 part 'src/storage.dart';
