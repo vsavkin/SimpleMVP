@@ -18,15 +18,16 @@ abstract class Model {
 
   operator []= (String name, value) => attributes[name] = value;
 
-  noSuchMethod(invocation){
+  noSuchMethod(Invocation invocation){
+    var mName = MirrorSystem.getName(invocation.memberName);
     if(invocation.isGetter){
-      return this[invocation.memberName];
+      return this[mName];
     } else if (invocation.isSetter){
-      var propertyName = _removeEqualsSign(invocation.memberName);
+      var propertyName = _removeEqualsSign(mName);
       return this[propertyName] = invocation.positionalArguments[0];
+    } else {
+      super.noSuchMethod(invocation);
     }
-
-    throw new NoSuchMethodError(this, invocation.memberName, invocation.positionalArguments, invocation.namedArguments);
   }
 
   _removeEqualsSign(String setter)

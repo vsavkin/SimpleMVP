@@ -65,8 +65,9 @@ abstract class Presenter<T> {
   }
 
   noSuchMethod(Invocation invocation){
-    if(invocation.isGetter && ui.containsKey(invocation.memberName)){
-      return el.query(ui[invocation.memberName]);
+    var mName = MirrorSystem.getName(invocation.memberName);
+    if(invocation.isGetter && ui.containsKey(mName)){
+      return el.query(ui[mName]);
     }
     super.noSuchMethod(invocation);
   }
