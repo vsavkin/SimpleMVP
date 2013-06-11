@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 PATH=$HOME/local/dart/chromium:$PATH
-results=$(DumpRenderTree test/run.html 2>&1)
+results=$(content_shell --dump-render-tree test/run.html 2>&1)
 
 echo -e "$results"
 
